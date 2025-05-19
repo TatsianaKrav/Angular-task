@@ -1,7 +1,7 @@
-export interface TreeModel {
+export interface TreeNode {
     id: string;
     label: string;
-    children?: TreeModel[];
-    checked?: boolean; // состояние чекбокса
-    indeterminate?: boolean; // для частично выбранных узлов
+    children?: TreeNode[];
+    parent?: TreeNode;
+    level?: number;
 }

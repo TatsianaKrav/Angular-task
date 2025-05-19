@@ -1,3 +1,4 @@
 <form [formGroup]="form">
-  <app-tree [nodes]="data"></app-tree>
+  <app-tree [nodes]="treeData" formControlName="selectedIds">
+  </app-tree>
 </form>

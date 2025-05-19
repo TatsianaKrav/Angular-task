@@ -1,18 +1,24 @@
-<ul>
-
-    @for (node of nodes(); track $index) {
-    <ng-container>
-        <li>
-            <input type="checkbox" [checked]="node.checked" [indeterminate]="node.indeterminate">
-            {{ node.label }}
-
-            <!-- Рекурсия для дочерних узлов -->
-            @if(node.children) {
-            <app-tree [nodes]="node.children">
-            </app-tree>
-            }
-        </li>
-    </ng-container>
-    }
-
+<ul class="tree">
+  <ng-container *ngTemplateOutlet="recursiveTree; context: { nodes: nodes(), level: 0 }"></ng-container>
 </ul>
+
+<ng-template #recursiveTree let-nodes="nodes" let-level="level">
+
+  @for (node of nodes; track $index) {
+  <ng-container>
+    <li>
+      <label>
+        <input type="checkbox" [checked]="isChecked(node.id)" (change)="onToggle(node, $event)" />
+        {{ node.label }}
+      </label>
+
+      @if(node.children?.length) {
+      <ul>
+        <ng-container
+          *ngTemplateOutlet="recursiveTree; context: { nodes: node.children, level: level + 1 }"></ng-container>
+      </ul>
+      }
+    </li>
+  </ng-container>
+  }
+</ng-template>
