@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { TreeComponent } from './components/tree/tree.component';
+import { treeData } from './utils/data';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [TreeComponent, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'angular-task';
+  data = treeData;
+  form: any;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      myTree: [[]]
+    });
+  }
 }

@@ -1,0 +1,18 @@
+<ul>
+
+    @for (node of nodes(); track $index) {
+    <ng-container>
+        <li>
+            <input type="checkbox" [checked]="node.checked" [indeterminate]="node.indeterminate">
+            {{ node.label }}
+
+            <!-- Рекурсия для дочерних узлов -->
+            @if(node.children) {
+            <app-tree [nodes]="node.children">
+            </app-tree>
+            }
+        </li>
+    </ng-container>
+    }
+
+</ul>
