@@ -6,7 +6,8 @@ export const treeData = [
             {
                 id: '1-1', label: 'Яблоки', children: [
                     { id: '1-1-1', label: 'Антоновка' },
-                    { id: '1-1-2', label: 'Белый налив' }
+                    { id: '1-1-2', label: 'Белый налив' },
+                    { id: '1-1-3', label: '' }
                 ]
             },
             {

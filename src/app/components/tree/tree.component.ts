@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
 import { TreeNode } from '../../utils/models/tree-model';
 import { CommonModule } from '@angular/common';
+import { DefaultPipe } from "../../utils/default.pipe";
 
 @Component({
   selector: 'app-tree',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DefaultPipe],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss'
 })

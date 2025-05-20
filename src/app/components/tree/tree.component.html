@@ -9,7 +9,7 @@
     <li>
       <label>
         <input type="checkbox" [checked]="isChecked(node.id)" (change)="onToggle(node, $event)" />
-        {{ node.label }}
+        {{ node.label | default }}
       </label>
 
       @if(node.children?.length) {
