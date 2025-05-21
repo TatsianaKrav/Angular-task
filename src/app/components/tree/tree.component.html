@@ -7,7 +7,7 @@
   @for (node of nodes; track $index) {
   <ng-container>
     <li>
-      <label>
+      <label checkValue>
         <input type="checkbox" [checked]="isChecked(node.id)" (change)="onToggle(node, $event)" />
         {{ node.label | default }}
       </label>

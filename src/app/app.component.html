@@ -1,4 +1,5 @@
 <form [formGroup]="form">
+  <input type="text" placeholder="Search..." [formControl]="searchField">
   <app-tree [nodes]="treeData" formControlName="selectedIds">
   </app-tree>
 </form>

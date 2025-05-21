@@ -2,11 +2,12 @@ import { Component, input } from '@angular/core';
 import { TreeNode } from '../../utils/models/tree-model';
 import { CommonModule } from '@angular/common';
 import { DefaultPipe } from "../../utils/default.pipe";
+import { CheckValueDirective } from '../../utils/check-value.directive';
 
 @Component({
   selector: 'app-tree',
   standalone: true,
-  imports: [CommonModule, DefaultPipe],
+  imports: [CommonModule, DefaultPipe, CheckValueDirective],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss'
 })

@@ -1,25 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, forwardRef, OnInit } from '@angular/core';
 import { TreeComponent } from './components/tree/tree.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { TreeNode } from './utils/models/tree-model';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { treeData } from './utils/data';
+import { debounceTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SearchService } from './services/search.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ ReactiveFormsModule, TreeComponent, CommonModule],
+  imports: [ReactiveFormsModule, TreeComponent, CommonModule],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TreeComponent),
+      multi: true,
+    }
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   form!: FormGroup;
-  selectedIds$!: Observable<string[]>;
+  protected readonly searchField = new FormControl('');
+  /*   selectedIds$!: Observable<string[]>; */
 
   treeData: TreeNode[] = treeData;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private destroyRef: DestroyRef, private searchService: SearchService) { }
 
   ngOnInit(): void {
     this.setParents(this.treeData);
@@ -28,7 +38,17 @@ export class AppComponent implements OnInit {
     this.form = this.fb.group({
       selectedIds: [[]]
     });
+
+    this.searchField.valueChanges
+      .pipe(
+        debounceTime(1000),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(value => {
+        value ? this.searchService.inputValue$.next(value) : this.searchService.inputValue$.next('');
+      })
   }
+
 
   setParents(nodes: TreeNode[], parent?: TreeNode): void {
     nodes.forEach(node => {
